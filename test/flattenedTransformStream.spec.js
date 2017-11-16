@@ -60,7 +60,7 @@ describe('FlattenedTransformStream', () => {
   })
 
   it('throws on missing metadata', (done) => {
-    const transformer = new FlattenedTransformStream((object) => false)
+    const transformer = new FlattenedTransformStream((object) => false, undefined, true)
     new Promise((resolve, reject) => {
       let data = []
       transformer

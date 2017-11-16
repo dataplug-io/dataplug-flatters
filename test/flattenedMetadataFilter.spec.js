@@ -32,7 +32,7 @@ describe('FlattenedMetadataFilter', () => {
   })
 
   it('throws intolerantly on invalid data', (done) => {
-    const filter = new FlattenedMetadataFilter(false)
+    const filter = new FlattenedMetadataFilter(false, true)
     new Promise((resolve, reject) => {
       let data = []
       filter
