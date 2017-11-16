@@ -76,4 +76,28 @@ describe('FlattenedTransformStream', () => {
       .should.eventually.be.rejectedWith(/No metadata/)
       .notify(done)
   })
+
+  it('generates missing metadata', (done) => {
+    const generate = (entity) => ({})
+    const transformer = new FlattenedTransformStream((object) => false, generate, true)
+    new Promise((resolve, reject) => {
+      let data = []
+      transformer
+        .on('end', () => resolve(data))
+        .on('error', reject)
+        .on('data', (chunk) => { data.push(chunk) })
+
+      transformer.write({
+        entity: [{}]
+      })
+      transformer.end()
+    })
+      .should.eventually.be.deep.equal([{
+        entity: {
+          metadata: {},
+          data: []
+        }
+      }])
+      .notify(done)
+  })
 })
