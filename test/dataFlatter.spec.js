@@ -302,7 +302,7 @@ describe('DataFlatter', () => {
       })
   })
 
-  it('flattens complex schema with default additionalProperties', () => {
+  it('flattens complex data with default additionalProperties', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
@@ -344,7 +344,7 @@ describe('DataFlatter', () => {
       })
   })
 
-  it('flattens complex schema with basic custom additionalProperties', () => {
+  it('flattens complex data with basic custom additionalProperties', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
@@ -382,7 +382,7 @@ describe('DataFlatter', () => {
       })
   })
 
-  it('flattens complex schema with complex custom additionalProperties', () => {
+  it('flattens complex data with complex custom additionalProperties', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
@@ -425,7 +425,7 @@ describe('DataFlatter', () => {
       })
   })
 
-  it('flattens complex schema with basic custom patternProperties', () => {
+  it('flattens complex data with basic custom patternProperties', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
@@ -465,7 +465,7 @@ describe('DataFlatter', () => {
       })
   })
 
-  it('flattens complex schema with complex custom patternProperties', () => {
+  it('flattens complex data with complex custom patternProperties', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
