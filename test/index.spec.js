@@ -1,7 +1,10 @@
 /* eslint-env node, mocha */
 require('chai')
   .should()
+const logger = require('winston')
 const dataplugFlatters = require('../lib')
+
+logger.clear()
 
 describe('dataplug-flatters', () => {
   it('has "DataFlatter" class', () => {

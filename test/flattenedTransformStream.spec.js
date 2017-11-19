@@ -4,7 +4,10 @@ require('chai')
   .should()
 const _ = require('lodash')
 const Promise = require('bluebird')
+const logger = require('winston')
 const { FlattenedTransformStream } = require('../lib')
+
+logger.clear()
 
 describe('FlattenedTransformStream', () => {
   it('alters data', (done) => {

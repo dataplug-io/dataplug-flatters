@@ -3,7 +3,10 @@ require('chai')
   .use(require('chai-as-promised'))
   .should()
 const Promise = require('bluebird')
+const logger = require('winston')
 const { FlattenedMetadataFilter } = require('../lib')
+
+logger.clear()
 
 describe('FlattenedMetadataFilter', () => {
   it('tolerantly removes data', (done) => {

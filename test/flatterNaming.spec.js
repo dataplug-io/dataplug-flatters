@@ -1,7 +1,10 @@
 /* eslint-env node, mocha */
 require('chai')
   .should()
+const logger = require('winston')
 const { FlatterNaming } = require('../lib')
+
+logger.clear()
 
 describe('FlatterNaming', () => {
   describe('#constructor()', () => {

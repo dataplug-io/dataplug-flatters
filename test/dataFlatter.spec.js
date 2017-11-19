@@ -1,7 +1,10 @@
 /* eslint-env node, mocha */
 require('chai')
   .should()
+const logger = require('winston')
 const { DataFlatter } = require('../lib')
+
+logger.clear()
 
 describe('DataFlatter', () => {
   it('flattens basic data', () => {
@@ -506,6 +509,64 @@ describe('DataFlatter', () => {
         'collection/complexObject[@0]': [
           { '$collection~id': 42, $property: 'objectProperty0', otherValue: 0 },
           { '$collection~id': 42, $property: 'objectProperty1', otherValue: 1 }
+        ]
+      })
+  })
+
+  it('flattens schema with deeply-nested entities', () => {
+    const jsonSchema = {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer'
+        },
+        complexObject: {
+          type: 'object',
+          patternProperties: {
+            '^.*$': {
+              type: 'object',
+              properties: {
+                anotherComplexObject: {
+                  type: 'object',
+                  properties: {
+                    otherId: {
+                      type: 'integer'
+                    },
+                    otherValue: {
+                      type: 'integer'
+                    }
+                  },
+                  required: ['otherId']
+                }
+              }
+            }
+          }
+        }
+      },
+      required: ['id']
+    }
+    const data = {
+      id: 42,
+      complexObject: {
+        objectProperty0: { anotherComplexObject: { otherId: 420, otherValue: 0 } },
+        objectProperty1: { anotherComplexObject: { otherId: 421, otherValue: 1 } }
+      }
+    }
+    new DataFlatter(jsonSchema, 'collection').flatten(data)
+      .should.deep.equal({
+        collection: [{
+          id: 42
+        }],
+        'collection/complexObject': [{
+          '$collection~id': 42
+        }],
+        'collection/complexObject[@0]': [
+          { '$collection~id': 42, $property: 'objectProperty0' },
+          { '$collection~id': 42, $property: 'objectProperty1' }
+        ],
+        'collection/complexObject[@0]/anotherComplexObject': [
+          { '$collection~id': 42, '$collection/complexObject[@0]~$property': 'objectProperty0', otherId: 420, otherValue: 0 },
+          { '$collection~id': 42, '$collection/complexObject[@0]~$property': 'objectProperty1', otherId: 421, otherValue: 1 }
         ]
       })
   })

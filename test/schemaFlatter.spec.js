@@ -2,7 +2,10 @@
 require('chai')
   .should()
 const Ajv = require('ajv')
+const logger = require('winston')
 const { SchemaFlatter } = require('../lib')
+
+logger.clear()
 
 describe('SchemaFlatter', () => {
   it('flattens basic schema', () => {
@@ -538,7 +541,7 @@ describe('SchemaFlatter', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
-        simpleProperty: {
+        id: {
           type: 'integer'
         },
         array: {
@@ -550,7 +553,7 @@ describe('SchemaFlatter', () => {
           }]
         }
       },
-      required: ['simpleProperty']
+      required: ['id']
     };
     (() => new SchemaFlatter().flatten(jsonSchema, 'collection'))
       .should.throw(/tuple array/)
@@ -560,7 +563,7 @@ describe('SchemaFlatter', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
-        simpleProperty: {
+        id: {
           type: 'integer'
         },
         complexObject: {
@@ -581,7 +584,7 @@ describe('SchemaFlatter', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
-        simpleProperty: {
+        id: {
           type: 'integer'
         },
         complexObject: {
@@ -593,13 +596,13 @@ describe('SchemaFlatter', () => {
           }
         }
       },
-      required: ['simpleProperty']
+      required: ['id']
     }
     new SchemaFlatter().flatten(jsonSchema, 'collection')
       .should.be.deep.equal({
         collection: {
           fields: {
-            simpleProperty: {
+            id: {
               identity: true,
               type: 'integer'
             }
@@ -611,17 +614,17 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               type: 'integer',
               reference: {
                 entity: 'collection',
-                field: 'simpleProperty',
+                field: 'id',
                 depth: 1
               },
               relation: {
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               }
             },
             otherSimpleProperty: {
@@ -721,7 +724,7 @@ describe('SchemaFlatter', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
-        simpleProperty: {
+        id: {
           type: 'integer'
         },
         complexObject: {
@@ -731,13 +734,13 @@ describe('SchemaFlatter', () => {
           }
         }
       },
-      required: ['simpleProperty']
+      required: ['id']
     }
     new SchemaFlatter().flatten(jsonSchema, 'collection')
       .should.be.deep.equal({
         collection: {
           fields: {
-            simpleProperty: {
+            id: {
               identity: true,
               type: 'integer'
             }
@@ -749,16 +752,16 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               reference: {
                 depth: 1,
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               relation: {
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               type: 'integer'
             }
@@ -770,16 +773,16 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject[@0]': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               reference: {
                 depth: 2,
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               relation: {
                 entity: 'collection/complexObject',
-                field: '$collection~simpleProperty'
+                field: '$collection~id'
               },
               type: 'integer'
             },
@@ -806,7 +809,7 @@ describe('SchemaFlatter', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
-        simpleProperty: {
+        id: {
           type: 'integer'
         },
         complexObject: {
@@ -821,13 +824,13 @@ describe('SchemaFlatter', () => {
           }
         }
       },
-      required: ['simpleProperty']
+      required: ['id']
     }
     new SchemaFlatter().flatten(jsonSchema, 'collection')
       .should.be.deep.equal({
         collection: {
           fields: {
-            simpleProperty: {
+            id: {
               identity: true,
               type: 'integer'
             }
@@ -839,16 +842,16 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               reference: {
                 depth: 1,
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               relation: {
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               type: 'integer'
             }
@@ -860,16 +863,16 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject[@0]': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               reference: {
                 depth: 2,
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               relation: {
                 entity: 'collection/complexObject',
-                field: '$collection~simpleProperty'
+                field: '$collection~id'
               },
               type: 'integer'
             },
@@ -893,7 +896,7 @@ describe('SchemaFlatter', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
-        simpleProperty: {
+        id: {
           type: 'integer'
         },
         complexObject: {
@@ -905,13 +908,13 @@ describe('SchemaFlatter', () => {
           }
         }
       },
-      required: ['simpleProperty']
+      required: ['id']
     }
     new SchemaFlatter().flatten(jsonSchema, 'collection')
       .should.be.deep.equal({
         collection: {
           fields: {
-            simpleProperty: {
+            id: {
               identity: true,
               type: 'integer'
             }
@@ -923,16 +926,16 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               reference: {
                 depth: 1,
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               relation: {
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               type: 'integer'
             }
@@ -944,16 +947,16 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject[@0]': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               reference: {
                 depth: 2,
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               relation: {
                 entity: 'collection/complexObject',
-                field: '$collection~simpleProperty'
+                field: '$collection~id'
               },
               type: 'integer'
             },
@@ -980,7 +983,7 @@ describe('SchemaFlatter', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
-        simpleProperty: {
+        id: {
           type: 'integer'
         },
         complexObject: {
@@ -997,13 +1000,13 @@ describe('SchemaFlatter', () => {
           }
         }
       },
-      required: ['simpleProperty']
+      required: ['id']
     }
     new SchemaFlatter().flatten(jsonSchema, 'collection')
       .should.be.deep.equal({
         collection: {
           fields: {
-            simpleProperty: {
+            id: {
               identity: true,
               type: 'integer'
             }
@@ -1015,16 +1018,16 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               reference: {
                 depth: 1,
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               relation: {
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               type: 'integer'
             }
@@ -1036,16 +1039,16 @@ describe('SchemaFlatter', () => {
         },
         'collection/complexObject[@0]': {
           fields: {
-            '$collection~simpleProperty': {
+            '$collection~id': {
               identity: true,
               reference: {
                 depth: 2,
                 entity: 'collection',
-                field: 'simpleProperty'
+                field: 'id'
               },
               relation: {
                 entity: 'collection/complexObject',
-                field: '$collection~simpleProperty'
+                field: '$collection~id'
               },
               type: 'integer'
             },
@@ -1163,6 +1166,142 @@ describe('SchemaFlatter', () => {
   //       }
   //     })
   // })
+
+  it('flattens schema with deeply-nested entities', () => {
+    const jsonSchema = {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'integer'
+        },
+        complexObject: {
+          type: 'object',
+          patternProperties: {
+            '^.*$': {
+              type: 'object',
+              properties: {
+                anotherComplexObject: {
+                  type: 'object',
+                  properties: {
+                    otherId: {
+                      type: 'integer'
+                    },
+                    otherValue: {
+                      type: 'integer'
+                    }
+                  },
+                  required: ['otherId']
+                }
+              }
+            }
+          }
+        }
+      },
+      required: ['id']
+    }
+    new SchemaFlatter().flatten(jsonSchema, 'collection')
+      .should.be.deep.equal({
+        collection: {
+          fields: {
+            id: {
+              identity: true,
+              type: 'integer'
+            }
+          },
+          origin: '#',
+          relations: {
+            'collection/complexObject': 'one-to-one'
+          }
+        },
+        'collection/complexObject': {
+          fields: {
+            '$collection~id': {
+              identity: true,
+              reference: {
+                depth: 1,
+                entity: 'collection',
+                field: 'id'
+              },
+              relation: {
+                entity: 'collection',
+                field: 'id'
+              },
+              type: 'integer'
+            }
+          },
+          origin: '#/properties/complexObject',
+          relations: {
+            'collection/complexObject[@0]': 'one-to-many'
+          }
+        },
+        'collection/complexObject[@0]': {
+          fields: {
+            '$collection~id': {
+              identity: true,
+              reference: {
+                depth: 2,
+                entity: 'collection',
+                field: 'id'
+              },
+              relation: {
+                entity: 'collection/complexObject',
+                field: '$collection~id'
+              },
+              type: 'integer'
+            },
+            $property: {
+              identity: true,
+              type: 'string',
+              reference: { /* THIS IS ADDED AFTER! */
+                fieldName: true
+              }
+            }
+          },
+          origin: '#/properties/complexObject/patternProperties/^.*$',
+          relations: {
+            'collection/complexObject[@0]/anotherComplexObject': 'one-to-one'
+          }
+        },
+        'collection/complexObject[@0]/anotherComplexObject': {
+          fields: {
+            '$collection/complexObject[@0]~$property': {
+              identity: true,
+              reference: {
+                depth: 1,
+                entity: 'collection/complexObject[@0]',
+                fieldName: true
+              },
+              relation: {
+                entity: 'collection/complexObject[@0]',
+                field: '$property'
+              },
+              type: 'string'
+            },
+            '$collection~id': {
+              identity: true,
+              reference: {
+                depth: 3,
+                entity: 'collection',
+                field: 'id'
+              },
+              relation: {
+                entity: 'collection/complexObject[@0]',
+                field: '$collection~id'
+              },
+              type: 'integer'
+            },
+            otherId: {
+              identity: true,
+              type: 'integer'
+            },
+            otherValue: {
+              type: 'integer'
+            }
+          },
+          origin: '#/properties/complexObject/patternProperties/^.*$/properties/anotherComplexObject'
+        }
+      })
+  })
 })
 
 describe('#toJsonSchema()', () => {
@@ -1229,11 +1368,11 @@ describe('#toJsonSchema()', () => {
       })
   })
 
-  it('works on complex schema and data', () => {
+  it('works on complex schema', () => {
     const jsonSchema = {
       type: 'object',
       properties: {
-        simpleProperty: {
+        id: {
           type: 'integer'
         },
         complexObject: {
@@ -1245,7 +1384,7 @@ describe('#toJsonSchema()', () => {
           }
         }
       },
-      required: ['simpleProperty']
+      required: ['id']
     }
     const flattenedSchema = new SchemaFlatter().flatten(jsonSchema, 'collection')
     const flattenedJsonSchema = SchemaFlatter.toJsonSchema(flattenedSchema)
@@ -1255,18 +1394,18 @@ describe('#toJsonSchema()', () => {
         definitions: {
           collection: {
             properties: {
-              simpleProperty: {
+              id: {
                 type: ['integer']
               }
             },
             required: [
-              'simpleProperty'
+              'id'
             ],
             type: 'object'
           },
           'collection/complexObject': {
             properties: {
-              '$collection~simpleProperty': {
+              '$collection~id': {
                 type: ['integer']
               },
               otherSimpleProperty: {
@@ -1274,7 +1413,7 @@ describe('#toJsonSchema()', () => {
               }
             },
             required: [
-              '$collection~simpleProperty'
+              '$collection~id'
             ],
             type: 'object'
           }
