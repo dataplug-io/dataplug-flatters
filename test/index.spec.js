@@ -31,6 +31,12 @@ describe('dataplug-flatters', () => {
       .that.is.an('function')
   })
 
+  it('has "getEntitiesOrderedByRelations" function', () => {
+    dataplugFlatters
+      .should.have.property('getEntitiesOrderedByRelations')
+      .that.is.an('function')
+  })
+
   it('has "SchemaFlatter" class', () => {
     dataplugFlatters
       .should.have.property('SchemaFlatter')

@@ -1252,7 +1252,7 @@ describe('SchemaFlatter', () => {
             $property: {
               identity: true,
               type: 'string',
-              reference: { /* THIS IS ADDED AFTER! */
+              reference: {
                 fieldName: true
               }
             }
