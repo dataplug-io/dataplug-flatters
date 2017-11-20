@@ -31,7 +31,7 @@ describe('getEntitiesOrderedByRelations()', () => {
     ])
   })
 
-  it('sorts related entities', () => {
+  it('sorts related entities in owned-first order', () => {
     const metadata = {
       entityB: {
         origin: '#/definitions/entityB'
@@ -56,7 +56,42 @@ describe('getEntitiesOrderedByRelations()', () => {
         origin: '#/definitions/entity'
       }
     }
-    const sortedEntities = getEntitiesOrderedByRelations(metadata)
+    const sortedEntities = getEntitiesOrderedByRelations(metadata, false)
+    sortedEntities.should.be.deep.equal([
+      'entity',
+      'entityA',
+      'entityB',
+      'entityC',
+      'entityZ'
+    ])
+  })
+
+  it('sorts related entities in owner-first order', () => {
+    const metadata = {
+      entityB: {
+        origin: '#/definitions/entityB'
+      },
+      entityZ: {
+        origin: '#/definitions/entityZ'
+      },
+      entityA: {
+        origin: '#/definitions/entityA',
+        relations: {
+          'entityC': 'one-to-one',
+          'entityB': 'one-to-one'
+        }
+      },
+      entityC: {
+        origin: '#/definitions/entityC',
+        relations: {
+          'entityZ': 'one-to-many'
+        }
+      },
+      entity: {
+        origin: '#/definitions/entity'
+      }
+    }
+    const sortedEntities = getEntitiesOrderedByRelations(metadata, true)
     sortedEntities.should.be.deep.equal([
       'entity',
       'entityA',
