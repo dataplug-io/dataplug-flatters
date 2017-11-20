@@ -7,6 +7,34 @@ const { DataFlatter } = require('../lib')
 logger.clear()
 
 describe('DataFlatter', () => {
+  it('flattens undefined data', () => {
+    const jsonSchema = {
+      type: 'object',
+      properties: {
+        booleanProperty: {
+          type: 'boolean'
+        },
+        integerProperty: {
+          type: 'integer'
+        },
+        stringProperty: {
+          type: 'string'
+        },
+        enumProperty: {
+          enum: ['option1', 'option2']
+        },
+        objectProperty: {
+          type: 'object'
+        }
+      }
+    }
+    const data = {}
+    new DataFlatter(jsonSchema, 'collection').flatten(data)
+      .should.deep.equal({
+        collection: [data]
+      })
+  })
+
   it('flattens basic data', () => {
     const jsonSchema = {
       type: 'object',
